@@ -37,3 +37,15 @@ public:
     int get_sdigit() const { return sdigit;} 
 };
 
+class PostMachine{
+private:
+    std::map<int, Command> command; 
+    Tape tape;
+    int current_line = 1;
+public:
+    void add_command(const Command& cmd){
+    command[cmd.get_number()]=cmd;
+    }
+    int get_current_line() const{ return current_line; }
+    const Tape& get_tape(){ return tape;}
+};
