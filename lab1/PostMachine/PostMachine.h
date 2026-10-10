@@ -21,6 +21,14 @@ public:
     Tape& operator=(const Tape& to_copy);
     friend std::ostream& operator<<(std::ostream& os,const Tape& tape);
     friend std::istream& operator>>(std::istream& is,Tape& tape);
+    bool operator==(const Tape& other) const{
+        return (this->tape == other.tape) && 
+               (std::distance(this->tape.cbegin(), std::list<int>::const_iterator(this->cur)) == 
+                std::distance(other.tape.cbegin(), std::list<int>::const_iterator(other.cur)));
+    }
+    bool operator!=(const Tape& other) const{
+        return !(*this==other);
+    }
 };
 
 class Command{
