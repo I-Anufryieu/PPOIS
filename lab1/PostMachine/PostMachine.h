@@ -53,9 +53,17 @@ private:
     Tape tape;
     int current_line = 1;
 public:
+    int get_current_line() const{ return current_line; }
+    const Tape& get_tape(){ return tape;}
     void add_command(const Command& cmd){
     command[cmd.get_number()]=cmd;
     }
-    int get_current_line() const{ return current_line; }
-    const Tape& get_tape(){ return tape;}
+    bool step();
+    void set_tape(const std::string& initial_state, int start_pos = 0) {
+        tape.set_tape(initial_state, start_pos);
+    }
+    void reset(){
+        command.clear();
+        current_line = 1;
+    }
 };

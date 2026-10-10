@@ -88,3 +88,22 @@ std::istream& operator>>(std::istream& is,Tape& tape){
     tape.set_tape(initial_state,0);
     return is;
 }
+
+bool PostMachine::step(){
+    Command cmd=command[current_line];
+    char symbol=cmd.get_symbol();
+
+    if(symbol=='!') return false;
+    else if(symbol=='?'){
+        current_line = (tape.get_symbol() == 0) ? cmd.get_fdigit() : cmd.get_sdigit();
+        return true;
+    }
+    else if (symbol == 'V')  tape.set_symbol(1);
+    else if (symbol == 'X')  tape.set_symbol(0);
+    else if (symbol == '>')  tape.move_right();
+    else if (symbol == '<')  tape.move_left();
+
+    current_line = cmd.get_fdigit();
+    
+    return true;
+}
