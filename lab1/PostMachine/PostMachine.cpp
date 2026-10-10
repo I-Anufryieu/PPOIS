@@ -27,6 +27,20 @@ void Tape::move_left(){
     --cur;
 }
 
+void Tape::set_tape(const std::string& initial_state, int start_pos){
+    tape.clear();
+    for (char c : initial_state) {
+        if (c == '1') tape.push_back(1);
+        else if (c == '0' || c == ' ')  tape.push_back(0);
+    }
+    if (tape.empty())  tape.push_back(0);
+    
+    cur = tape.begin();
+    for (int i = 0; i < start_pos && cur != std::prev(tape.end()); ++i) {
+        ++cur;
+    }
+}
+
 Command Command::parser(const std::string& line){
    std::stringstream stream(line);
    char symbol='!';
@@ -59,3 +73,18 @@ Tape::Tape(const Tape& to_copy) : tape(to_copy.tape){
     std::advance(cur, dist);
 }
 
+std::ostream& operator<<(std::ostream& os,const Tape& tape){
+    std::list<int>::const_iterator prohod=tape.tape.begin();
+    for(;prohod!=tape.tape.end();++prohod){
+        if(prohod==tape.cur) os <<'['<< *prohod <<']';
+        else os <<' '<< *prohod <<' ';
+    }
+    return os;
+}
+
+std::istream& operator>>(std::istream& is,Tape& tape){
+    std::string initial_state;
+    is>>initial_state;
+    tape.set_tape(initial_state,0);
+    return is;
+}

@@ -12,13 +12,15 @@ private:
 public:
     Tape();
     Tape(const Tape &to_copy);
+    void set_tape(const std::string& initial_state, int start_pos = 0);
     int get_symbol() const;
     void set_symbol(int val);
     void move_right();
     void move_left();
 
     Tape& operator=(const Tape& to_copy);
-
+    friend std::ostream& operator<<(std::ostream& os,const Tape& tape);
+    friend std::istream& operator>>(std::istream& is,Tape& tape);
 };
 
 class Command{
