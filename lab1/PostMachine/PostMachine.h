@@ -1,8 +1,13 @@
+#ifndef POSTMACHINE_H
+#define POSTMACHINE_H
+
+#include <iostream>
 #include <list>
 #include <iterator>
 #include <sstream>
 #include <string>
 #include <map>
+
 
 class Tape{
 private:
@@ -67,3 +72,5 @@ public:
         current_line = 1;
     }
 };
+
+#endif
