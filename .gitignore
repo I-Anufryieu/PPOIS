@@ -424,5 +424,14 @@ FodyWeavers.xsd
 *.msm
 *.msp
 
+# Временные файлы компиляции
+*.o
+*.exe
+
+# Файлы отчетов и данных покрытия gcov
+*.gcno
+*.gcda
+*.gcov
+
 # Official VS Code C# Dev Kit Extension exclusion
 #*.lscache
