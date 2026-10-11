@@ -1,6 +1,6 @@
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
-#include "PostMachine.h"
+#include "../PostMachine.h"
 #include <sstream>
 
 TEST_CASE("1. Полное покрытие ленты", "[Tape]") {
