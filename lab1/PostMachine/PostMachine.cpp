@@ -90,6 +90,9 @@ std::istream& operator>>(std::istream& is,Tape& tape){
 }
 
 bool PostMachine::step(){
+    if(command.find(current_line)==command.end()){
+        throw std::out_of_range("Ошибка: Команды с номером " + std::to_string(current_line) + " не существует!");
+    }
     Command cmd=command[current_line];
     char symbol=cmd.get_symbol();
 
