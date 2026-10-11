@@ -32,9 +32,22 @@ int main(){
                 int pos_choice = 0;
                 while(true){
                     std::cout<<"Введите начальную позицию каретки (от 0 до "<<tape_length - 1<<"): "<<std::endl;
-                    std::cin>>pos_choice;
-                    if(pos_choice>=0 && pos_choice<tape_length ) break;
-                    std::cout << "Неверная позиция, такой ячейки нет. Попробуйте снова."<<std::endl;
+                    std::string input;
+                    std::cin >> input;
+                    bool is_number = true;
+                    for (char c : input) {
+                        if (!isdigit(c)) {
+                            is_number = false;
+                            break;
+                        }
+                    }
+                    if (!is_number) {
+                        std::cout << "Неверный ввод. Нужно ввести целое число. Попробуйте снова." << std::endl;
+                        continue;
+                    }
+                    pos_choice = std::stoi(input);
+                    if (pos_choice >= 0 && pos_choice < tape_length) break;
+                    std::cout << "Неверная позиция, такой ячейки нет. Попробуйте снова." << std::endl;
                 }
                 post_machine.set_tape(line, pos_choice);
                 std::cout << "Начально состояние ленты и позиция каретки заданы" << std::endl;
