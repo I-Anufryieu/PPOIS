@@ -74,10 +74,10 @@ Tape::Tape(const Tape& to_copy) : tape(to_copy.tape){
 }
 
 std::ostream& operator<<(std::ostream& os,const Tape& tape){
-    std::list<int>::const_iterator prohod=tape.tape.begin();
-    for(;prohod!=tape.tape.end();++prohod){
-        if(prohod==tape.cur) os <<'['<< *prohod <<']';
-        else os <<' '<< *prohod <<' ';
+    std::list<int>::const_iterator iter=tape.tape.begin();
+    for(;iter!=tape.tape.end();++iter){
+        if(iter==tape.cur) os <<'['<< *iter <<']';
+        else os <<' '<< *iter <<' ';
     }
     return os;
 }
