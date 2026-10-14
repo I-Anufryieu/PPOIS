@@ -4,10 +4,11 @@
 #include <string>
 #include <map>
 #include <set>
+#include <sstream>
 
 struct Transition{
     char next_symbol;
-    char move_to;
+    char move_direction;
     std::string next_state;
 };
 
@@ -40,16 +41,17 @@ public:
 
 class Parser{
 private:
-    std::string input_alphabet;
-    std::string input_state;
     std::set<char> tape_alphabet;
-    std::set<std::string> tape_state;
+    std::set<std::string> tape_states;
     Program program;
 
     
-    
-
 public:
     Program get_program() const{ return program;}
+    void parse_tape_alphabet(const std::string& line);
+    void parse_tape_states(const std::string& line);
+    const std::set<char>& get_tape_alphabet() const{ return tape_alphabet;}
+    const std::set<std::string>& get_tape_states() const{ return tape_states;}
+    std::string parse_and_add_transition(const std::string rule);
 
 };
