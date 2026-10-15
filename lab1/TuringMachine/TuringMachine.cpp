@@ -1,5 +1,10 @@
 #include "TuringMachine.h"
 
+Tape::Tape() {
+    tape.push_back(BLANK_SYMBOL);
+    cur = tape.begin();
+}
+
 void Tape::move_right(){
     if(cur==std::prev(tape.end())) tape.push_back('_');
     ++cur;
@@ -10,6 +15,7 @@ void Tape::move_left(){
     --cur;
 }
 
+
 std::ostream& operator<<(std::ostream& os,const Tape& tape){
     for(auto iter=tape.tape.begin();iter!=tape.tape.end();++iter){
         if(iter==tape.cur) os <<'['<< *iter <<']';
@@ -18,10 +24,21 @@ std::ostream& operator<<(std::ostream& os,const Tape& tape){
     return os;
 }
 
-bool Program::get_transition(const std::string& state,char symbol,Transition& next_trans) const{
+std::istream &operator>>(std::istream& is,Tape& tape){
+    tape.tape.clear();
+    std::string initial_state;
+    is>>initial_state;
+    for(char c : initial_state){
+        tape.tape.push_back(c);
+    }
+    tape.cur = tape.tape.begin();
+    return is;
+}
+
+bool Program::get_transition(const std::string& state,char symbol,Transition& next_transition) const{
     auto find_state = state_table.find({state,symbol});
     if(find_state!=state_table.end()){
-        next_trans=find_state->second;
+        next_transition=find_state->second;
         return true;
     }
     return false;
@@ -60,5 +77,15 @@ std::string Parser::parse_and_add_transition(const std::string rule){
     Transition transition{write_symbol, move_direction, next_state};
     program.add_transition(current_state, read_symbol, transition);
 
+    return "";
+}
+
+std::string Parser::parse_and_set_tape(const std::string& line, Tape& tape) const{
+    if (line.empty()) return "Ошибка: строка ленты не может быть пустой";
+    for (char c : line) {
+        if (!tape_alphabet.contains(c))  return "Ошибка: символ '" + std::string(1, c) + "' отсутствует в алфавите ленты";
+    }
+    std::istringstream ss(line);
+    ss >> tape;
     return "";
 }
