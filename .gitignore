@@ -1,15 +1,15 @@
-# Сборочные директории
+build-release/
 build/
 bin/
 obj/
 out/
 
-# Служебные файлы редакторов и ОС
+
 .vscode/
 latex/
 .DS_Store
 
-# Временные файлы компиляции C++
+
 *.exe
 *.o
 *.obj
@@ -17,3 +17,6 @@ latex/
 *.gcno
 *.gcda
 *.gcov
+
+
+

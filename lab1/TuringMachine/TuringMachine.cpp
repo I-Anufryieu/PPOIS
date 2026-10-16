@@ -122,7 +122,7 @@ std::ostream& operator<<(std::ostream& os, const Parser& parser) {
     }
     os << "\nСостояния: ";
     for (const std::string& state : parser.tape_states) {
-         os << state << " ";
+         os << state << " ";        
       }
       os << "\n" << parser.program;
       return os;

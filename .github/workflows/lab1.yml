@@ -1,0 +1,117 @@
+name: Lab 1 CI/CD
+
+on:
+  push:
+    paths:
+      - 'lab1/**'
+      - '.github/workflows/lab1.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  test:
+    name: Build, test, coverage and lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y g++ gcovr cppcheck cmake
+
+      - name: Lint
+        run: |
+          cppcheck \
+            --enable=warning,performance,portability \
+            --inline-suppr \
+            --suppress=missingIncludeSystem \
+            --error-exitcode=1 \
+            -i tests -i docs -i build \
+            -I lab1/PostMachine \
+            -I lab1/TuringMachine \
+            lab1/PostMachine lab1/TuringMachine
+
+      - name: Configure PostMachine
+        run: |
+          cmake \
+            -S lab1/PostMachine \
+            -B lab1/PostMachine/build \
+            -DCMAKE_EXE_LINKER_FLAGS="-static"
+
+      - name: Build PostMachine
+        run: cmake --build lab1/PostMachine/build
+
+      - name: Test PostMachine
+        run: ./lab1/PostMachine/build/UnitTests
+
+      - name: Coverage PostMachine
+        working-directory: lab1/PostMachine
+        run: |
+          gcovr --root . --filter 'PostMachine.cpp' --fail-under-line 90
+
+      - name: Configure TuringMachine
+        run: |
+          cmake \
+            -S lab1/TuringMachine \
+            -B lab1/TuringMachine/build \
+            -DCMAKE_EXE_LINKER_FLAGS="-static"
+
+      - name: Build TuringMachine
+        run: cmake --build lab1/TuringMachine/build
+
+      - name: Test TuringMachine
+        run: ./lab1/TuringMachine/build/UnitTests
+
+      - name: Coverage TuringMachine
+        working-directory: lab1/TuringMachine
+        run: |
+          gcovr --root . --filter 'TuringMachine.cpp' --fail-under-line 90
+
+      - name: Prepare release files
+        run: |
+          mkdir -p release
+
+          cp lab1/PostMachine/build/PostMachineApp \
+             release/PostMachineApp
+
+          cp lab1/TuringMachine/build/TuringMachineApp \
+             release/TuringMachineApp
+
+      - name: Create archive
+        run: |
+          tar -czf lab1-linux.tar.gz -C release .
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: lab1-linux
+          path: lab1-linux.tar.gz
+
+  release:
+    name: Create GitHub Release
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: lab1-linux
+          path: release
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: lab1-${{ github.run_number }}
+          name: Lab 1 ${{ github.run_number }}
+          generate_release_notes: true
+          files: release/lab1-linux.tar.gz
