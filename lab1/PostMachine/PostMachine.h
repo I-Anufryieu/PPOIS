@@ -7,6 +7,7 @@
 #include <sstream>
 #include <string>
 #include <map>
+#include <limits>
 
 /**
  * @file PostMachine.h

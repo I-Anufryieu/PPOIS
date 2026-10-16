@@ -1,5 +1,9 @@
 #include "PostMachine.h"
 
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 namespace {
 
     int get_menu_choice(){
@@ -127,6 +131,10 @@ namespace {
 }
 
 int main(){
+    #ifdef _WIN32
+    SetConsoleOutputCP(65001);
+    SetConsoleCP(65001);
+    #endif
     PostMachine post_machine;
     while(true){
         switch(get_menu_choice()){
