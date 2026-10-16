@@ -8,6 +8,7 @@
 #include <map>
 #include <set>
 #include <sstream>
+#include <limits>
 
 /**
  * @file TuringMachine.h
