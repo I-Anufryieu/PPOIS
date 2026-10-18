@@ -51,9 +51,9 @@ jobs:
       - name: Coverage PostMachine
         working-directory: lab1/PostMachine
         run: |
-          gcovr --root . --filter 'PostMachine.cpp' --fail-under-line 90
+          gcovr --root . --filter 'src/.*\.cpp$' --fail-under-line 90
 
-- name: Coverage TuringMachine
+      - name: Coverage TuringMachine
         working-directory: lab1/TuringMachine
         run: |
           gcovr --root . --filter 'src/.*\.cpp$' --fail-under-line 90
