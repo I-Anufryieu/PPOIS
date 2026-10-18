@@ -31,9 +31,9 @@ jobs:
             --suppress=missingIncludeSystem \
             --error-exitcode=1 \
             -i tests -i docs -i build \
-            -I lab1/PostMachine \
-            -I lab1/TuringMachine \
-            lab1/PostMachine lab1/TuringMachine
+            -I lab1/PostMachine/include \
+            -I lab1/TuringMachine/include \
+            lab1/PostMachine/src lab1/TuringMachine/src lab1/TuringMachine/app
 
       - name: Configure PostMachine
         run: |
@@ -53,12 +53,10 @@ jobs:
         run: |
           gcovr --root . --filter 'PostMachine.cpp' --fail-under-line 90
 
-      - name: Configure TuringMachine
+- name: Coverage TuringMachine
+        working-directory: lab1/TuringMachine
         run: |
-          cmake \
-            -S lab1/TuringMachine \
-            -B lab1/TuringMachine/build \
-            -DCMAKE_EXE_LINKER_FLAGS="-static"
+          gcovr --root . --filter 'src/.*\.cpp$' --fail-under-line 90
 
       - name: Build TuringMachine
         run: cmake --build lab1/TuringMachine/build

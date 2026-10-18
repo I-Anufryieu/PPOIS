@@ -1,4 +1,6 @@
 #include "PostMachine.h"
+#include <limits>
+#include <sstream>
 
 #ifdef _WIN32
 #include <windows.h>

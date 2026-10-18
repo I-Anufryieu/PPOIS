@@ -2,14 +2,16 @@
 #include <windows.h>
 #endif
 
-#include "TuringMachine.h"
-namespace{
+#include "../include/TuringMachine.h"
+#include "../include/Parser.h"
 
-    int get_menu_choice(){
+namespace {
+
+    int get_menu_choice() {
         int choice = 0;
         while (true) {
-            std::cout<<"1 - Задать таблицу переходов\n2 - Задать начальное состояние ленты и позицию каретки\n3 - Выполнить 1 итерацию алгоритма\n"
-            "4 - Начать выполнение алгоритма\n0 - Завершить работу\nВаш выбор: "<<std::endl;
+            std::cout << "1 - Задать таблицу переходов\n2 - Задать начальное состояние ленты и позицию каретки\n3 - Выполнить 1 итерацию алгоритма\n"
+            "4 - Начать выполнение алгоритма\n0 - Завершить работу\nВаш выбор: " << std::endl;
             
             if (std::cin >> choice) { 
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -150,9 +152,9 @@ int main() {
             default: std::cout << "Неверный ввод, попробуйте снова" << std::endl; break;
             case 1: initialize_program(parser, turing_machine); break;
             case 2: initialize_tape(turing_machine); break;
-            case 3:  run_single_step(turing_machine); break;
+            case 3: run_single_step(turing_machine); break;
             case 4: run_full_algorithm(turing_machine); break;
-            case 0:  return 0;
+            case 0: return 0;
         }
     }
 }
