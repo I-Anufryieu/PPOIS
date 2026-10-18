@@ -1,6 +1,9 @@
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
-#include "../TuringMachine.h"
+#include "../include/TuringMachine.h"
+#include "../include/Tape.h"
+#include "../include/Program.h"
+#include "../include/Parser.h"
 #include <sstream>
 
 namespace TapeTests {
@@ -424,4 +427,4 @@ TEST_CASE("TuringMachine: full run with left moves", "[TuringMachine]") {
     REQUIRE(tm.get_current_state() == "qf");
 }
 
-} 
+}

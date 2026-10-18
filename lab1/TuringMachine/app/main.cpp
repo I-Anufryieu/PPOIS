@@ -4,6 +4,7 @@
 
 #include "../include/TuringMachine.h"
 #include "../include/Parser.h"
+#include <limits>
 
 namespace {
 

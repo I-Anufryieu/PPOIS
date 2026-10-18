@@ -35,6 +35,7 @@ jobs:
             -I lab1/TuringMachine/include \
             lab1/PostMachine/src lab1/TuringMachine/src lab1/TuringMachine/app
 
+      # --- PostMachine ---
       - name: Configure PostMachine
         run: |
           cmake \
@@ -51,12 +52,14 @@ jobs:
       - name: Coverage PostMachine
         working-directory: lab1/PostMachine
         run: |
-          gcovr --root . --filter 'src/.*\.cpp$' --fail-under-line 90
+          gcovr --root . --object-directory build --filter 'src/.*\.cpp$' --fail-under-line 90
 
-      - name: Coverage TuringMachine
-        working-directory: lab1/TuringMachine
+      - name: Configure TuringMachine
         run: |
-          gcovr --root . --filter 'src/.*\.cpp$' --fail-under-line 90
+          cmake \
+            -S lab1/TuringMachine \
+            -B lab1/TuringMachine/build \
+            -DCMAKE_EXE_LINKER_FLAGS="-static"
 
       - name: Build TuringMachine
         run: cmake --build lab1/TuringMachine/build
@@ -67,8 +70,9 @@ jobs:
       - name: Coverage TuringMachine
         working-directory: lab1/TuringMachine
         run: |
-          gcovr --root . --filter 'TuringMachine.cpp' --fail-under-line 90
-
+          gcovr --root . --object-directory build --filter 'src/.*\.cpp$' --fail-under-line 90
+      
+      # --- Release Packaging ---
       - name: Prepare release files
         run: |
           mkdir -p release
